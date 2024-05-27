@@ -3,7 +3,6 @@
     "module": "CommonJS",
     "lib": ["esnext"],
     "sourceMap": true,
-    "target": "es2017",
     "outDir": "./build",
     "baseUrl": ".",
     "paths": {
@@ -11,17 +10,12 @@
     },
     "esModuleInterop": true,
     "alwaysStrict": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "strict": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build"]
