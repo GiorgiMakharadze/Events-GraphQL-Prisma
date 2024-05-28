@@ -10,7 +10,8 @@ import { filterXSS } from 'xss';
 import { AppModule } from '_app/app.module';
 import errorHandlerMiddleware from '_app/middlewares/error-handler';
 import notFoundMiddleware from '_app/middlewares/not-found';
-import { resolvers } from '_app/graphql/resolvers/resolvers';
+import { loadTypeDefs } from '_app/graphql';
+import resolvers from '_app/resolvers';
 
 dotenv.config();
 
@@ -52,7 +53,7 @@ const startServer = async () => {
 
   AppModule(server);
 
-  const typeDefs = await readFile('src/graphql/schemas/schema.graphql', 'utf8');
+  const typeDefs = await loadTypeDefs();
 
   const apolloServer = new ApolloServer({ typeDefs, resolvers });
   await apolloServer.start();

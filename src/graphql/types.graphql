@@ -1,0 +1,35 @@
+type User {
+  id: String!
+  username: String!
+  email: String!
+  role: Role!
+  firstName: String
+  lastName: String
+  profilePicture: String
+  password: String
+  events: [Event!]!
+  accessToken: String
+  refreshToken: String
+  forgotPasswordToken: String
+  forgotPasswordTokenExpire: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Event {
+  id: String!
+  name: String!
+  interested: Int!
+  willAttend: Int!
+  place: String!
+  date: String!
+  author: User!
+  createdAt: String!
+  updatedAt: String!
+}
+
+enum Role {
+  USER
+  MAIN_ADMIN
+  ADMIN
+}

@@ -1,12 +1,5 @@
-type Query {
-  users: [User!]!
-  user(id: String!): User
-  events: [Event!]!
-  event(id: String!): Event
-}
-
 type Mutation {
-  createUser(data: CreateUserInput!): User!
+  register(data: RegisterUserInput!): User!
   updateUser(id: String!, data: UpdateUserInput!): User!
   deleteUser(id: String!): User!
   createEvent(data: CreateEventInput!): Event!
@@ -14,7 +7,7 @@ type Mutation {
   deleteEvent(id: String!): Event!
 }
 
-input CreateUserInput {
+input RegisterUserInput {
   username: String!
   email: String!
   password: String!
@@ -53,39 +46,4 @@ input UpdateEventInput {
   willAttend: Int
   place: String
   date: String
-}
-
-type User {
-  id: String!
-  username: String!
-  email: String!
-  role: Role!
-  firstName: String
-  lastName: String
-  profilePicture: String
-  events: [Event!]!
-  accessToken: String
-  refreshToken: String
-  forgotPasswordToken: String
-  forgotPasswordTokenExpire: String
-  createdAt: String!
-  updatedAt: String!
-}
-
-type Event {
-  id: String!
-  name: String!
-  interested: Int!
-  willAttend: Int!
-  place: String!
-  date: String!
-  author: User!
-  createdAt: String!
-  updatedAt: String!
-}
-
-enum Role {
-  USER
-  MAIN_ADMIN
-  ADMIN
 }

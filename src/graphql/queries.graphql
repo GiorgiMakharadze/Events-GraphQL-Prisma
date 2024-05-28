@@ -1,0 +1,6 @@
+type Query {
+  users: [User!]!
+  user(id: String!): User
+  events: [Event!]!
+  event(id: String!): Event
+}
