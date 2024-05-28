@@ -12,6 +12,7 @@ import errorHandlerMiddleware from '_app/middlewares/error-handler';
 import notFoundMiddleware from '_app/middlewares/not-found';
 import { loadTypeDefs } from '_app/graphql';
 import resolvers from '_app/resolvers';
+import { formatError } from '_app/errors';
 
 dotenv.config();
 
@@ -55,7 +56,7 @@ const startServer = async () => {
 
   const typeDefs = await loadTypeDefs();
 
-  const apolloServer = new ApolloServer({ typeDefs, resolvers });
+  const apolloServer = new ApolloServer({ typeDefs, resolvers, formatError });
   await apolloServer.start();
 
   server.use('/graphql', apolloMiddleware(apolloServer));
