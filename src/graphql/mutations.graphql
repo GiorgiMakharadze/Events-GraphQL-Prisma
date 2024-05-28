@@ -1,3 +1,5 @@
+directive @passwordStrength on INPUT_FIELD_DEFINITION
+
 type Mutation {
   register(data: RegisterUserInput!): User!
   updateUser(id: String!, data: UpdateUserInput!): User!
@@ -8,12 +10,12 @@ type Mutation {
 }
 
 input RegisterUserInput {
-  username: String!
-  email: String!
+  username: String! @constraint(minLength: 3, maxLength: 30)
+  email: String! @constraint(format: "email")
   password: String!
-  role: Role = USER
-  firstName: String
-  lastName: String
+    @constraint(pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
+  firstName: String @constraint(minLength: 3, maxLength: 30)
+  lastName: String @constraint(minLength: 5, maxLength: 30)
   profilePicture: String
 }
 

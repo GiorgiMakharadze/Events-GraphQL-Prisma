@@ -1,7 +1,8 @@
 import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4';
-import { readFile } from 'node:fs/promises';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { constraintDirective, constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -54,9 +55,21 @@ const startServer = async () => {
 
   AppModule(server);
 
-  const typeDefs = await loadTypeDefs();
+  const loadedTypeDefs = await loadTypeDefs();
 
-  const apolloServer = new ApolloServer({ typeDefs, resolvers, formatError });
+  const typeDefs = [constraintDirectiveTypeDefs, loadedTypeDefs];
+
+  let schema = makeExecutableSchema({
+    typeDefs,
+    resolvers,
+  });
+
+  schema = constraintDirective()(schema);
+
+  const apolloServer = new ApolloServer({
+    schema,
+    formatError,
+  });
   await apolloServer.start();
 
   server.use('/graphql', apolloMiddleware(apolloServer));
