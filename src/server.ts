@@ -2,7 +2,6 @@ import express from 'express';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware as apolloMiddleware } from '@apollo/server/express4';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { constraintDirective, constraintDirectiveTypeDefs } from 'graphql-constraint-directive';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -13,7 +12,7 @@ import errorHandlerMiddleware from '_app/middlewares/error-handler';
 import notFoundMiddleware from '_app/middlewares/not-found';
 import { loadTypeDefs } from '_app/graphql';
 import resolvers from '_app/resolvers';
-import { formatError } from '_app/errors';
+import authenticateToken from './utils/authenticateToken';
 
 dotenv.config();
 
@@ -55,24 +54,33 @@ const startServer = async () => {
 
   AppModule(server);
 
-  const loadedTypeDefs = await loadTypeDefs();
-
-  const typeDefs = [constraintDirectiveTypeDefs, loadedTypeDefs];
+  const typeDefs = await loadTypeDefs();
 
   let schema = makeExecutableSchema({
     typeDefs,
     resolvers,
   });
 
-  schema = constraintDirective()(schema);
+  async function getContext({ req, res }) {
+    const token = req.cookies.accessToken;
+    if (token) {
+      try {
+        const user = await authenticateToken(token);
+        return { user, req, res };
+      } catch (error) {
+        console.error('Token verification error:', error);
+        return { req, res };
+      }
+    }
+    return { req, res };
+  }
 
   const apolloServer = new ApolloServer({
     schema,
-    formatError,
   });
   await apolloServer.start();
 
-  server.use('/graphql', apolloMiddleware(apolloServer));
+  server.use('/graphql', apolloMiddleware(apolloServer, { context: getContext }));
 
   server.use(notFoundMiddleware);
   server.use(errorHandlerMiddleware);

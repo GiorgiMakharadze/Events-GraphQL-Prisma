@@ -1,5 +1,6 @@
 import { Application } from 'express';
+import AuthRoutes from '_app/rest/routes/authRoutes';
 
 export const AppModule = (app: Application) => {
-  app.use('/api/v1/login', (req, res) => res.status(200).json({ msg: 'loged in' }));
+  app.use('/api/v1/auth', AuthRoutes);
 };

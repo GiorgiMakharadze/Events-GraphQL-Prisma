@@ -1,4 +1,4 @@
-directive @passwordStrength on INPUT_FIELD_DEFINITION
+# directive @passwordStrength on INPUT_FIELD_DEFINITION
 
 type Mutation {
   register(data: RegisterUserInput!): User!
@@ -9,13 +9,22 @@ type Mutation {
   deleteEvent(id: String!): Event!
 }
 
+# input RegisterUserInput {
+#   username: String! @constraint(minLength: 3, maxLength: 30, type: String)
+#   email: String! @constraint(format: "email")
+#   password: String!
+#     @constraint(pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
+#   firstName: String @constraint(minLength: 3, maxLength: 30)
+#   lastName: String @constraint(minLength: 5, maxLength: 30)
+#   profilePicture: String
+# }
+
 input RegisterUserInput {
-  username: String! @constraint(minLength: 3, maxLength: 30)
-  email: String! @constraint(format: "email")
+  username: String!
+  email: String!
   password: String!
-    @constraint(pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")
-  firstName: String @constraint(minLength: 3, maxLength: 30)
-  lastName: String @constraint(minLength: 5, maxLength: 30)
+  firstName: String
+  lastName: String
   profilePicture: String
 }
 

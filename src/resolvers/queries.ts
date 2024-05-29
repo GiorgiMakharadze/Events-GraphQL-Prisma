@@ -1,10 +1,31 @@
-import { prisma } from '_app/prisma/client';
+import { unauthorizedError } from '_app/errors';
+import { getAllUsers, getUserById, getAllEvents, getEventById } from '_app/services/admin.service';
 
 const Query = {
-  users: async () => prisma.user.findMany(),
-  user: async (_root, { id }) => prisma.user.findUnique({ where: { id } }),
-  events: async () => prisma.event.findMany(),
-  event: async (_root, { id }) => prisma.event.findUnique({ where: { id } }),
+  getUsers: async (_root, _args, { user }) => {
+    if (!user) {
+      throw unauthorizedError('Missing authentication');
+    }
+    return getAllUsers();
+  },
+  getUser: async (_root, { id }, { user }) => {
+    if (!user) {
+      throw unauthorizedError('Missing authentication');
+    }
+    return getUserById(id);
+  },
+  getEvents: async (_root, _args, { user }) => {
+    if (!user) {
+      throw unauthorizedError('Missing authentication');
+    }
+    return getAllEvents();
+  },
+  getEvent: async (_root, { id }, { user }) => {
+    if (!user) {
+      throw unauthorizedError('Missing authentication');
+    }
+    return getEventById(id);
+  },
 };
 
 export default Query;

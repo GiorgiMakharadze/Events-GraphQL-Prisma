@@ -8,10 +8,6 @@ type User {
   profilePicture: String
   password: String
   events: [Event!]!
-  accessToken: String
-  refreshToken: String
-  forgotPasswordToken: String
-  forgotPasswordTokenExpire: String
   createdAt: String!
   updatedAt: String!
 }
