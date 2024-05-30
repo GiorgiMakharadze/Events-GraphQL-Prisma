@@ -6,7 +6,8 @@
     "outDir": "./build",
     "baseUrl": ".",
     "paths": {
-      "_app/*": ["./src/*"]
+      "_app/*": ["./src/*"],
+      "_rest/*": ["./src/rest/*"]
     },
     "esModuleInterop": true,
     "alwaysStrict": true,

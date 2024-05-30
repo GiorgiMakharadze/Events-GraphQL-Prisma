@@ -1,8 +1,13 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-import { logIn, refreshAccessToken } from '_app/rest/controllers/auth.controller';
-import rateLimiterKeyGenerator from '_app/rest/utils/rateLimiterKeyGenerator';
-import authenticateToken from '_app/rest/utils/authenticateToken';
+import {
+  forgotPassword,
+  forgotPasswordConfirm,
+  logIn,
+  refreshAccessToken,
+} from '_rest/controllers/auth.controller';
+import rateLimiterKeyGenerator from '_rest/utils/rateLimiterKeyGenerator';
+import authenticateToken from '_rest/utils/authenticateToken';
 
 const router = Router();
 
@@ -29,6 +34,8 @@ const forgotPasswordRateLimiter = rateLimit({
 });
 
 router.route('/login').post(loginRateLimiter, logIn);
+router.route('/forgot-password').post(forgotPasswordRateLimiter, forgotPassword);
+router.route('/forgot-password/confirm').post(forgotPasswordConfirm);
 
 router.use(authenticateToken);
 
