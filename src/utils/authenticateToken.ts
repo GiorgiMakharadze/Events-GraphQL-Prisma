@@ -8,11 +8,12 @@ const authenticateToken = async (token: string) => {
     throw unauthorizedError('No token provided');
   }
 
-  const payload = (await paseto.verify(token, publicKeyPEM)) as any;
+  const payload = await paseto.verify(token, publicKeyPEM);
 
   const user = await prisma.user.findUnique({
-    where: { id: payload.id },
+    where: { id: payload.id } as { id: string },
   });
+
   if (!user) {
     throw unauthorizedError('Invalid token: user not found');
   }

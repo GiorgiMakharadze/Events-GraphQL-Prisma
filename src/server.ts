@@ -41,7 +41,7 @@ const startServer = async () => {
     cors({
       origin: true,
       credentials: true,
-      allowedHeaders: ['Content-Type', 'Authorization', 'x-csrf-token'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
       methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     })
   );
@@ -66,6 +66,7 @@ const startServer = async () => {
     if (token) {
       try {
         const user = await authenticateToken(token);
+        console.log('getContext log:', user.id);
         return { user, req, res };
       } catch (error) {
         console.error('Token verification error:', error);

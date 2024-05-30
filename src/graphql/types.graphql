@@ -17,6 +17,7 @@ type Event {
   name: String!
   interested: Int!
   willAttend: Int!
+  description: String!
   place: String!
   date: String!
   author: User!

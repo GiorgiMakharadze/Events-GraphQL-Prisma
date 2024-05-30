@@ -14,37 +14,38 @@ datasource db {
 }
 
 model User {
-  id                        String   @id @default(uuid())
-  username                  String   @unique
-  email                     String   @unique
+  id                        String    @id @default(uuid())
+  username                  String    @unique
+  email                     String    @unique
   password                  String
-  role                      Role     @default(USER)
+  role                      Role      @default(USER)
   firstName                 String?
   lastName                  String?
   profilePicture            String?
   events                    Event[]
-  accessToken               String   @unique
-  refreshToken              String   @unique
-  forgotPasswordToken       String   @unique
-  forgotPasswordTokenExpire DateTime
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
+  accessToken               String    @unique
+  refreshToken              String    @unique
+  forgotPasswordToken       String?   @unique
+  forgotPasswordTokenExpire DateTime?
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
 
   @@index([username])
   @@index([email])
 }
 
 model Event {
-  id         String   @id @default(uuid())
-  name       String   @unique
-  interested Int      @default(0)
-  willAttend Int      @default(0)
-  place      String
-  date       DateTime
-  author     User     @relation(fields: [userId], references: [id])
-  userId     String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id          String   @id @default(uuid())
+  name        String   @unique
+  interested  Int      @default(0)
+  willAttend  Int      @default(0)
+  description String   @unique
+  place       String
+  date        DateTime
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@index([name])
 }

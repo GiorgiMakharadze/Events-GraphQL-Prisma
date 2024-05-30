@@ -4,6 +4,7 @@ import {
   forgotPassword,
   forgotPasswordConfirm,
   logIn,
+  logOut,
   refreshAccessToken,
 } from '_rest/controllers/auth.controller';
 import rateLimiterKeyGenerator from '_rest/utils/rateLimiterKeyGenerator';
@@ -40,5 +41,6 @@ router.route('/forgot-password/confirm').post(forgotPasswordConfirm);
 router.use(authenticateToken);
 
 router.route('/refresh-token').get(refreshAccessToken);
+router.route('/logout').post(logOut);
 
 export default router;

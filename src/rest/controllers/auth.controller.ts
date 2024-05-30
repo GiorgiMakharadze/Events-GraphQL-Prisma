@@ -40,6 +40,8 @@ const logIn = async (req: Request, res: Response) => {
   }
 
   const tokenPayload = { id: user.id };
+  console.log('login token payload log', tokenPayload);
+
   const token = await paseto.sign(tokenPayload, privateKeyPEM);
   const refreshToken = await generateRefreshToken(user);
 

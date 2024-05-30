@@ -1,4 +1,42 @@
-# directive @passwordStrength on INPUT_FIELD_DEFINITION
+type Query {
+  getUsers: [User!]!
+  getUser(id: String!): User
+  getEvents: [Event!]!
+  getEvent(id: String!): Event
+}
+
+type User {
+  id: String!
+  username: String!
+  email: String!
+  role: Role!
+  firstName: String
+  lastName: String
+  profilePicture: String
+  password: String
+  events: [Event!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Event {
+  id: String!
+  name: String!
+  interested: Int!
+  willAttend: Int!
+  description: String!
+  place: String!
+  date: String!
+  author: User!
+  createdAt: String!
+  updatedAt: String!
+}
+
+enum Role {
+  USER
+  MAIN_ADMIN
+  ADMIN
+}
 
 type Mutation {
   register(data: RegisterUserInput!): User!
