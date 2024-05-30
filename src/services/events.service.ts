@@ -91,4 +91,38 @@ const DeleteEvent = async ({ id, authorId }) => {
   return deletedEvent;
 };
 
-export { CreateEvent, UpdateEvent, DeleteEvent };
+const ExpressInterest = async (eventId: string) => {
+  const event = await prisma.event.findUnique({ where: { id: eventId } });
+
+  if (!event) {
+    throw new Error('Event not found');
+  }
+
+  const updatedEvent = await prisma.event.update({
+    where: { id: eventId },
+    data: {
+      interested: event.interested + 1,
+    },
+  });
+
+  return updatedEvent;
+};
+
+const MarkWillAttend = async (eventId: string) => {
+  const event = await prisma.event.findUnique({ where: { id: eventId } });
+
+  if (!event) {
+    throw new Error('Event not found');
+  }
+
+  const updatedEvent = await prisma.event.update({
+    where: { id: eventId },
+    data: {
+      willAttend: event.willAttend + 1,
+    },
+  });
+
+  return updatedEvent;
+};
+
+export { CreateEvent, UpdateEvent, DeleteEvent, ExpressInterest, MarkWillAttend };

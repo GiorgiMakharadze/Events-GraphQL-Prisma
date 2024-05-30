@@ -1,6 +1,12 @@
 import { unauthorizedError } from '_app/errors';
 import { RegisterUser } from '_app/services/auth.service';
-import { CreateEvent, UpdateEvent, DeleteEvent } from '_app/services/events.service';
+import {
+  CreateEvent,
+  UpdateEvent,
+  DeleteEvent,
+  ExpressInterest,
+  MarkWillAttend,
+} from '_app/services/events.service';
 
 const Mutation = {
   register: async (_root, { data }) => await RegisterUser(data),
@@ -32,6 +38,21 @@ const Mutation = {
       throw unauthorizedError('Missing authentication');
     }
     const event = await DeleteEvent({ id, authorId: user.id });
+    return event;
+  },
+
+  expressInterest: async (_root, { eventId }, { user }) => {
+    if (!user) {
+      throw unauthorizedError('Missing authentication');
+    }
+    const event = await ExpressInterest(eventId);
+    return event;
+  },
+  markWillAttend: async (_root, { eventId }, { user }) => {
+    if (!user) {
+      throw unauthorizedError('Missing authentication');
+    }
+    const event = await MarkWillAttend(eventId);
     return event;
   },
 };

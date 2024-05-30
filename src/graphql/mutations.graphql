@@ -7,6 +7,8 @@ type Mutation {
   createEvent(data: CreateEventInput!): Event!
   updateEvent(id: String!, data: UpdateEventInput!): Event!
   deleteEvent(id: String!): Event!
+  expressInterest(eventId: String!): Event!
+  markWillAttend(eventId: String!): Event!
 }
 
 input RegisterUserInput {
