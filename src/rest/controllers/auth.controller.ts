@@ -140,7 +140,7 @@ const logOut = async (req: Request, res: Response) => {
   if (user) {
     await prisma.user.update({
       where: { id: user.id },
-      data: { refreshToken: null, accessToken: null },
+      data: { refreshToken: '', accessToken: '' },
     });
   }
 
