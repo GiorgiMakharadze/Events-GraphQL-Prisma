@@ -23,6 +23,7 @@ model User {
   lastName                  String?
   profilePicture            String?
   events                    Event[]
+  eventInteractions         EventInteraction[]
   accessToken               String    @unique
   refreshToken              String    @unique
   forgotPasswordToken       String?   @unique
@@ -44,14 +45,33 @@ model Event {
   date        DateTime
   author      User     @relation(fields: [authorId], references: [id])
   authorId    String
+  eventInteractions EventInteraction[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
   @@index([name])
 }
 
+model EventInteraction {
+  id          String   @id @default(uuid())
+  event       Event    @relation(fields: [eventId], references: [id])
+  eventId     String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  type        InteractionType
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([eventId, userId, type])
+}
+
 enum Role {
   USER
   MAIN_ADMIN
   ADMIN
+}
+
+enum InteractionType {
+  INTERESTED
+  WILL_ATTEND
 }

@@ -2,8 +2,8 @@
 
 type Mutation {
   register(data: RegisterUserInput!): User!
-  updateUser(id: String!, data: UpdateUserInput!): User!
-  deleteUser(id: String!): User!
+  updateUser(data: UpdateUserInput!): User!
+  deleteUser: User!
   createEvent(data: CreateEventInput!): Event!
   updateEvent(id: String!, data: UpdateEventInput!): Event!
   deleteEvent(id: String!): Event!

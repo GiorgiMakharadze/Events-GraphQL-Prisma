@@ -11,3 +11,12 @@ export interface IUser {
   forgotPasswordToken?: string | null;
   forgotPasswordTokenExpire?: Date | null;
 }
+
+export interface IUpdateUserInput {
+  username?: string;
+  email?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  profilePicture?: string;
+}

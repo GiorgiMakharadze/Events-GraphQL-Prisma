@@ -1,6 +1,6 @@
 import { prisma } from '_app/prisma/client';
-import { unauthorizedError } from '_app/errors';
 import { IEvent } from '_app/interfaces';
+
 const CreateEvent = async ({
   name,
   interested = 0,
@@ -40,7 +40,7 @@ const UpdateEvent = async ({
   place,
   date,
   authorId,
-}: IEvent) => {
+}) => {
   const event = await prisma.event.findUnique({ where: { id } });
 
   if (!event) {
@@ -71,7 +71,7 @@ const UpdateEvent = async ({
   return updatedEvent;
 };
 
-const DeleteEvent = async ({ id, authorId }) => {
+const DeleteEvent = async ({ id, authorId }: { id: string; authorId: string }) => {
   const event = await prisma.event.findUnique({ where: { id } });
 
   if (!event) {
@@ -91,12 +91,34 @@ const DeleteEvent = async ({ id, authorId }) => {
   return deletedEvent;
 };
 
-const ExpressInterest = async (eventId: string) => {
+const ExpressInterest = async (eventId: string, userId: string) => {
   const event = await prisma.event.findUnique({ where: { id: eventId } });
 
   if (!event) {
     throw new Error('Event not found');
   }
+
+  const existingInteraction = await prisma.eventInteraction.findUnique({
+    where: {
+      eventId_userId_type: {
+        eventId,
+        userId,
+        type: 'INTERESTED',
+      },
+    },
+  });
+
+  if (existingInteraction) {
+    throw new Error('You have already expressed interest in this event');
+  }
+
+  await prisma.eventInteraction.create({
+    data: {
+      eventId,
+      userId,
+      type: 'INTERESTED',
+    },
+  });
 
   const updatedEvent = await prisma.event.update({
     where: { id: eventId },
@@ -108,12 +130,34 @@ const ExpressInterest = async (eventId: string) => {
   return updatedEvent;
 };
 
-const MarkWillAttend = async (eventId: string) => {
+const MarkWillAttend = async (eventId: string, userId: string) => {
   const event = await prisma.event.findUnique({ where: { id: eventId } });
 
   if (!event) {
     throw new Error('Event not found');
   }
+
+  const existingInteraction = await prisma.eventInteraction.findUnique({
+    where: {
+      eventId_userId_type: {
+        eventId,
+        userId,
+        type: 'WILL_ATTEND',
+      },
+    },
+  });
+
+  if (existingInteraction) {
+    throw new Error('You have already marked that you will attend this event');
+  }
+
+  await prisma.eventInteraction.create({
+    data: {
+      eventId,
+      userId,
+      type: 'WILL_ATTEND',
+    },
+  });
 
   const updatedEvent = await prisma.event.update({
     where: { id: eventId },
