@@ -24,9 +24,9 @@ model User {
   profilePicture            String?
   events                    Event[]
   eventInteractions         EventInteraction[]
-  accessToken               String    @unique
-  refreshToken              String    @unique
-  forgotPasswordToken       String?   @unique
+  accessToken               String    
+  refreshToken              String    
+  forgotPasswordToken       String?   
   forgotPasswordTokenExpire DateTime?
   createdAt                 DateTime  @default(now())
   updatedAt                 DateTime  @updatedAt
