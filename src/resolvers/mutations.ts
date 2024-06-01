@@ -18,7 +18,6 @@ const Mutation = {
     }
     const eventData = {
       ...data,
-      authorId: user.id,
     };
     const event = await CreateEvent(eventData);
     return event;
@@ -30,7 +29,6 @@ const Mutation = {
     const eventData = {
       id,
       ...data,
-      authorId: user.id,
     };
     const event = await UpdateEvent(eventData);
     return event;

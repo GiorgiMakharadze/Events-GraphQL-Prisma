@@ -1,6 +1,6 @@
 import { V4 as paseto } from 'paseto';
 import { prisma } from '_app/prisma/client';
-import { publicKeyPEM } from '_app/utils';
+import { publicKeyPEM } from '_rest/utils';
 import { UnauthenticatedError } from '_rest/errors';
 
 const verifyAccessToken = async (accessToken: string) => {

@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 import { V4 as paseto } from 'paseto';
 import 'dotenv/config';
-import { publicKeyPEM } from '_app/utils/keyManager';
+import { publicKeyPEM } from '_rest/utils/keyManager';
 import { prisma } from '_app/prisma/client';
 import { UnauthenticatedError, UnauthorizedError } from '_rest/errors';
 

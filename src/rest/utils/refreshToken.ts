@@ -1,6 +1,6 @@
 import { V4 as paseto } from 'paseto';
 import { prisma } from '_app/prisma/client';
-import { privateKeyPEM } from '_app/utils/keyManager';
+import { privateKeyPEM } from '_rest/utils/keyManager';
 
 const generateRefreshToken = async (user) => {
   const refreshTokenPayload = { id: user.id };

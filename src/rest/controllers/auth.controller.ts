@@ -12,9 +12,9 @@ import {
   UnauthenticatedError,
   UnauthorizedError,
 } from '_app/rest/errors';
-import generateRefreshToken from '_app/utils/refreshToken';
-import setCookies from '_app/utils/setCookies';
-import { privateKeyPEM } from '_app/utils';
+import generateRefreshToken from '_app/rest/utils/refreshToken';
+import setCookies from '_rest/utils/setCookies';
+import { privateKeyPEM } from '_rest/utils';
 import omitPrivate from '_app/utils/omitPrivate';
 import { verifyAccessToken, verifyRefreshToken } from '_rest/utils';
 import sendMail from '_rest/utils/sendEmail';
@@ -45,10 +45,15 @@ const logIn = async (req: Request, res: Response) => {
   const token = await paseto.sign(tokenPayload, privateKeyPEM);
   const refreshToken = await generateRefreshToken(user);
 
+  console.log('Setting tokens for user:', user.id);
+
   await prisma.user.update({
     where: { id: user.id },
     data: { accessToken: token, refreshToken },
   });
+
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
 
   setCookies(res, token, refreshToken);
 

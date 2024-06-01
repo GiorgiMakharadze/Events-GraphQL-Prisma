@@ -5,46 +5,15 @@ type Query {
   getEvent(id: String!): Event
 }
 
-type User {
-  id: String!
-  username: String!
-  email: String!
-  role: Role!
-  firstName: String
-  lastName: String
-  profilePicture: String
-  password: String
-  events: [Event!]!
-  createdAt: String!
-  updatedAt: String!
-}
-
-type Event {
-  id: String!
-  name: String!
-  interested: Int!
-  willAttend: Int!
-  description: String!
-  place: String!
-  date: String!
-  author: User!
-  createdAt: String!
-  updatedAt: String!
-}
-
-enum Role {
-  USER
-  MAIN_ADMIN
-  ADMIN
-}
-
 type Mutation {
   register(data: RegisterUserInput!): User!
-  updateUser(id: String!, data: UpdateUserInput!): User!
-  deleteUser(id: String!): User!
+  updateUser(data: UpdateUserInput!): User!
+  deleteUser: User!
   createEvent(data: CreateEventInput!): Event!
   updateEvent(id: String!, data: UpdateEventInput!): Event!
   deleteEvent(id: String!): Event!
+  expressInterest(eventId: String!): Event!
+  markWillAttend(eventId: String!): Event!
 }
 
 input RegisterUserInput {
@@ -82,4 +51,37 @@ input UpdateEventInput {
   place: String
   description: String!
   date: String
+}
+
+type User {
+  id: String!
+  username: String!
+  email: String!
+  role: Role!
+  firstName: String
+  lastName: String
+  profilePicture: String
+  password: String
+  events: [Event!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Event {
+  id: String!
+  name: String!
+  interested: Int!
+  willAttend: Int!
+  description: String!
+  place: String!
+  date: String!
+  author: User!
+  createdAt: String!
+  updatedAt: String!
+}
+
+enum Role {
+  USER
+  MAIN_ADMIN
+  ADMIN
 }

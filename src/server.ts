@@ -63,10 +63,12 @@ const startServer = async () => {
 
   async function getContext({ req, res }) {
     const token = req.cookies.accessToken;
+    console.log('Token from cookies:', token);
+
     if (token) {
       try {
         const user = await authenticateToken(token);
-        console.log('getContext log:', user.id);
+        console.log('getContext log:', user.id); // This should log the correct user ID
         return { user, req, res };
       } catch (error) {
         console.error('Token verification error:', error);

@@ -9,15 +9,15 @@ const setCookies = (res: Response, accessToken: string, refreshToken: string) =>
 
   res.cookie('accessToken', accessToken, {
     expires: new Date(Date.now() + accessTokenExpiry),
-    secure: isProduction,
-    sameSite: 'none',
+    secure: true,
+    sameSite: 'strict',
     httpOnly: true,
   });
 
   res.cookie('refreshToken', refreshToken, {
     expires: new Date(Date.now() + refreshTokenExpiry),
-    secure: isProduction,
-    sameSite: 'none',
+    secure: true,
+    sameSite: 'strict',
     httpOnly: true,
   });
 };

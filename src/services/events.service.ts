@@ -18,11 +18,7 @@ const CreateEvent = async ({
       description,
       place,
       date,
-      author: {
-        connect: {
-          id: authorId,
-        },
-      },
+      authorId,
     },
     include: {
       author: true,
